@@ -316,6 +316,16 @@ export default function MainPageDummy({ showBlob = true }: MainPageDummyProps = 
     }
   }, [assistantMessages, isConversationEnded, chatState.isLoading]);
 
+  // 대화 종료 후 3초 뒤에 자연스럽게 종료 안내 화면으로 전환
+  useEffect(() => {
+    if (isConversationEnded && !showEndMessage && !showSummary) {
+      const timer = setTimeout(() => {
+        setShowEndMessage(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isConversationEnded, showEndMessage, showSummary]);
+
   // 5번째 답변 완료 시 안내 메시지 표시
   useEffect(() => {
     const assistantCount = assistantMessages.length;
@@ -1033,27 +1043,32 @@ export default function MainPageDummy({ showBlob = true }: MainPageDummyProps = 
                     </div>
                     
                     {!selectedKeyword && !showFinalMessage && (
-                      <div className="fixed bottom-0 left-0 right-0 z-20 px-6 pb-8 pt-4 bg-gradient-to-t from-white/90 to-transparent backdrop-blur-sm safe-bottom">
-                        <button
-                          onClick={handleEndButton}
-                          className="w-full touch-manipulation active:scale-95 flex justify-center items-center"
-                          style={{
-                            height: '56px',
-                            padding: '15px 85px',
-                            borderRadius: '68px',
-                            background: 'rgba(135, 254, 200, 0.75)',
-                            boxShadow: '0 0 50px 0 #EEE inset',
-                            color: '#000',
-                            textAlign: 'center',
-                            fontFamily: 'Pretendard Variable',
-                            fontSize: '16px',
-                            fontWeight: 700,
-                            lineHeight: '110%',
-                            letterSpacing: '-0.64px',
-                          }}
-                        >
-                          End
-                        </button>
+                      <div className="fixed bottom-0 left-0 right-0 z-20 safe-bottom">
+                        {/* 하단 그라데이션은 화면 맨 아래에 고정 */}
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-white/90 to-transparent backdrop-blur-sm" />
+                        {/* 버튼만 살짝 위로 올림 */}
+                        <div className="relative px-6 pb-8 pt-4" style={{ bottom: '24px' }}>
+                          <button
+                            onClick={handleEndButton}
+                            className="w-full touch-manipulation active:scale-95 flex justify-center items-center"
+                            style={{
+                              height: '56px',
+                              padding: '15px 85px',
+                              borderRadius: '68px',
+                              background: 'rgba(135, 254, 200, 0.75)',
+                              boxShadow: '0 0 50px 0 #EEE inset',
+                              color: '#000',
+                              textAlign: 'center',
+                              fontFamily: 'Pretendard Variable',
+                              fontSize: '16px',
+                              fontWeight: 700,
+                              lineHeight: '110%',
+                              letterSpacing: '-0.64px',
+                            }}
+                          >
+                            End
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1083,26 +1098,32 @@ export default function MainPageDummy({ showBlob = true }: MainPageDummyProps = 
                       />
                     </div>
                     
-                    <div className="fixed bottom-0 left-0 right-0 z-20 px-6 pb-8 pt-4 bg-gradient-to-t from-white/90 to-transparent backdrop-blur-sm safe-bottom">
-                      <button
-                        onClick={handleNextToSummary}
-                        className="w-full touch-manipulation active:scale-95 flex justify-center items-center"
-                        style={{
-                          height: '56px',
-                          padding: '15px 85px',
-                          borderRadius: '68px',
-                          background: 'rgba(255, 255, 255, 0.21)',
-                          color: '#000',
-                          textAlign: 'center',
-                          fontFamily: 'Pretendard Variable',
-                          fontSize: '16px',
-                          fontWeight: 700,
-                          lineHeight: '110%',
-                          letterSpacing: '-0.64px',
-                        }}
-                      >
-                        Next
-                      </button>
+                    <div className="fixed bottom-0 left-0 right-0 z-30 safe-bottom">
+                      {/* 하단 그라데이션은 화면 맨 아래에 고정 */}
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-white/90 to-transparent backdrop-blur-sm" />
+                      {/* 버튼만 살짝 위로 올림 (이전 단계와 동일 위치) */}
+                      <div className="relative px-6 pb-8 pt-4" style={{ bottom: '24px' }}>
+                        <button
+                          onClick={handleNextToSummary}
+                          className="w-full touch-manipulation active:scale-95 flex justify-center items-center"
+                          style={{
+                            height: '56px',
+                            padding: '15px 85px',
+                            borderRadius: '68px',
+                            background: 'rgba(231, 245, 236, 0.9)',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.06)',
+                            color: '#000',
+                            textAlign: 'center',
+                            fontFamily: 'Pretendard Variable',
+                            fontSize: '16px',
+                            fontWeight: 700,
+                            lineHeight: '110%',
+                            letterSpacing: '-0.64px',
+                          }}
+                        >
+                          대화 요약 보러가기
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -1179,18 +1200,31 @@ export default function MainPageDummy({ showBlob = true }: MainPageDummyProps = 
                   height: '56px',
                   padding: '15px 85px',
                   borderRadius: '68px',
-                  background: 'rgba(135, 254, 200, 0.75)',
-                  boxShadow: '0 0 50px 0 #EEE inset',
-                  color: '#000',
+                  background: 'rgba(231, 245, 236, 0.9)',
+                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.06)',
                   textAlign: 'center',
-                  fontFamily: 'Pretendard Variable',
-                  fontSize: '16px',
-                  fontWeight: 700,
-                  lineHeight: '110%',
-                  letterSpacing: '-0.64px',
                 }}
               >
-                대화 요약 보러가기
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6,
+                  }}
+                >
+                  {[0, 1, 2].map((dot) => (
+                    <span
+                      key={dot}
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: '50%',
+                        backgroundColor: '#C4C4C4',
+                      }}
+                    />
+                  ))}
+                </div>
               </button>
             </div>
           </div>
