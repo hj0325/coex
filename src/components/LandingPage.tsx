@@ -239,9 +239,11 @@ export default function LandingPage({ onStart, showBlob = true }: LandingPagePro
       <div 
         className="relative z-[60] flex-1 flex flex-col justify-start px-6 transition-all duration-[3000ms] ease-in-out overflow-hidden"
         style={{
-          paddingTop: moveToBottom ? '20px' : '120px',
-          paddingBottom: '120px', // 버튼 공간 확보
-          transform: moveToBottom ? 'translateY(calc(100vh - 240px))' : 'translateY(0)',
+          // 메인 타이틀과 콘텐츠를 전체적으로 조금 더 위로 배치
+          paddingTop: moveToBottom ? '32px' : '120px',
+          paddingBottom: '160px', // 버튼과의 간격을 확보하면서도 너무 아래로 내려가지 않도록 조정
+          // 하단으로 내려가는 양을 줄여서 텍스트가 더 위에 머물도록 조정
+          transform: moveToBottom ? 'translateY(calc(100vh - 320px))' : 'translateY(0)',
         }}
       >
         <div className="text-left">
@@ -395,7 +397,7 @@ export default function LandingPage({ onStart, showBlob = true }: LandingPagePro
       <div className="fixed bottom-0 left-0 right-0 z-[60] px-6 pb-8 pt-4 bg-gradient-to-t from-white/90 to-transparent backdrop-blur-sm safe-bottom">
         <button
           onClick={handleStartClick}
-          disabled={isTransitioning || (conversationCount !== null && conversationCount + 1 >= 100)}
+          disabled={isTransitioning || (conversationCount !== null && conversationCount + 1 >= 1000)}
           className="landing-start-btn touch-manipulation active:scale-95 disabled:opacity-50"
           style={{
             color: '#000',
@@ -404,7 +406,9 @@ export default function LandingPage({ onStart, showBlob = true }: LandingPagePro
             fontSize: '16px',
             fontWeight: 700,
             lineHeight: '110%',
-            letterSpacing: '-0.64px'
+            letterSpacing: '-0.64px',
+            // 버튼을 그라데이션 레이어는 그대로 둔 채 적당히 위로 올리기 위한 여백 (살짝 아래로)
+            marginBottom: '52px',
           }}
         >
           시작하기
@@ -419,7 +423,8 @@ export default function LandingPage({ onStart, showBlob = true }: LandingPagePro
           align-items: center;
           width: min(420px, 100%);
           padding: 0 clamp(20px, 5vw, 38px);
-          height: clamp(52px, 10vw, 60px);
+          /* 세로 두께를 약간만 두껍게 조정 (이전보다 살짝 줄임) */
+          height: clamp(56px, 10.5vw, 64px);
           border-radius: 999px;
           border: 1px solid rgba(255, 255, 255, 0.45);
           background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.42) 45%, rgba(255, 255, 255, 0.18) 100%);

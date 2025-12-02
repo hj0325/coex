@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import LandingPage from './LandingPage';
 import MainPage from './MainPage';
 import BlobBackground from './ui/BlobBackground';
@@ -64,6 +65,13 @@ export default function AppFlow() {
 
   return (
     <div className="min-h-screen relative" style={{ background: 'transparent' }}>
+      {/* Lab Navigation Buttons - Global for Root Path */}
+      <div className="fixed top-4 right-4 z-[100] flex gap-2">
+        <Link href="/lab/v1" className="w-8 h-8 flex items-center justify-center bg-white/50 hover:bg-white/80 backdrop-blur-md rounded-full text-gray-800 font-bold shadow-sm border border-white transition-all">1</Link>
+        <Link href="/lab/v2" className="w-8 h-8 flex items-center justify-center bg-white/50 hover:bg-white/80 backdrop-blur-md rounded-full text-gray-800 font-bold shadow-sm border border-white transition-all">2</Link>
+        <Link href="/lab/v3" className="w-8 h-8 flex items-center justify-center bg-white/50 hover:bg-white/80 backdrop-blur-md rounded-full text-gray-800 font-bold shadow-sm border border-white transition-all">3</Link>
+      </div>
+
       {/* AppFlow 레벨에서 BlobBackground를 관리하여 상태 유지 */}
       {showBlobBackground && (
         <BlobBackground

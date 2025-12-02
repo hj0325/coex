@@ -931,6 +931,9 @@ export default function MainPageV1({ showBlob = true }: MainPageV1Props = { show
           width: '100%',
           opacity: shouldAnimate ? (showRecommendationChips ? 1 : 0) : 1,
           transition: shouldAnimate ? 'opacity 0.5s ease-in' : 'none',
+          // 상단 35%, 하단 35%에서만 부드럽게 투명해지는 마스크 (가운데 30%는 선명)
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)',
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)',
         }}
       >
         {randomRecommendations.map((message, index) => {
